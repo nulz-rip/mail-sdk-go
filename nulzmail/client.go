@@ -80,7 +80,7 @@ func (c *Client) CreateInbox(ctx context.Context) (Inbox, error) {
 
 // CreateInboxWithPrefix creates alias with optional prefix (e.g. "femboy").
 func (c *Client) CreateInboxWithPrefix(ctx context.Context, prefix string) (Inbox, error) {
-	body := struct{}{}
+	var body any = struct{}{}
 	if prefix != "" {
 		body = struct{ Prefix string `json:"prefix"` }{Prefix: prefix}
 	}
