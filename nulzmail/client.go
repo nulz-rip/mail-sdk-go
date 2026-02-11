@@ -75,8 +75,17 @@ func (c *Client) do(ctx context.Context, method, path string, body any, out any)
 
 // CreateInbox creates one alias (inbox). Sends {} so backend gets valid JSON.
 func (c *Client) CreateInbox(ctx context.Context) (Inbox, error) {
+	return c.CreateInboxWithPrefix(ctx, "")
+}
+
+// CreateInboxWithPrefix creates alias with optional prefix (e.g. "femboy").
+func (c *Client) CreateInboxWithPrefix(ctx context.Context, prefix string) (Inbox, error) {
+	body := struct{}{}
+	if prefix != "" {
+		body = struct{ Prefix string `json:"prefix"` }{Prefix: prefix}
+	}
 	var out Inbox
-	err := c.do(ctx, "POST", "/aliases", struct{}{}, &out)
+	err := c.do(ctx, "POST", "/aliases", body, &out)
 	return out, err
 }
 
